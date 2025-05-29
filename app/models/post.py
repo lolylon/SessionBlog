@@ -8,7 +8,7 @@ class Post(db.Model):
     image_file = db.Column(db.String(20))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    # Add sentiment scores
+    
     sentiment_pos = db.Column(db.Float, default=0.0)
     sentiment_neg = db.Column(db.Float, default=0.0)
     sentiment_neu = db.Column(db.Float, default=0.0)

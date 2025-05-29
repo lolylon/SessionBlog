@@ -29,16 +29,13 @@ def index():
     posts = Post.query.order_by(Post.created_at.desc()).paginate(page=page, per_page=5)
     return render_template('posts/index.html', posts=posts)
 
-# Add at the top with other imports
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
-# Add this function after the existing imports
 def analyze_sentiment(text):
     analyzer = SentimentIntensityAnalyzer()
     sentiment = analyzer.polarity_scores(text)
     return sentiment
 
-# Modify the new_post function
 @posts_bp.route('/post/new', methods=['GET', 'POST'])
 @login_required
 def new_post():
@@ -46,11 +43,9 @@ def new_post():
     if form.validate_on_submit():
         post = Post(title=form.title.data, content=form.content.data, author=current_user)
         
-        # Analyze sentiment of both title and content
         title_sentiment = analyze_sentiment(form.title.data)
         content_sentiment = analyze_sentiment(form.content.data)
         
-        # Calculate average sentiment scores
         post.sentiment_pos = (title_sentiment['pos'] + content_sentiment['pos']) / 2
         post.sentiment_neg = (title_sentiment['neg'] + content_sentiment['neg']) / 2
         post.sentiment_neu = (title_sentiment['neu'] + content_sentiment['neu']) / 2
@@ -89,7 +84,6 @@ def update_post(post_id):
         post.title = form.title.data
         post.content = form.content.data
         
-        # Analyze sentiment of both title and content
         title_sentiment = analyze_sentiment(form.title.data)
         content_sentiment = analyze_sentiment(form.content.data)
         

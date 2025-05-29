@@ -3,16 +3,13 @@ from app.models.post import Post
 
 def upgrade_database():
     with db.engine.connect() as conn:
-        # Add sentiment_pos column
+
         conn.execute(db.text("ALTER TABLE post ADD COLUMN sentiment_pos FLOAT DEFAULT 0.0"))
         
-        # Add sentiment_neg column
         conn.execute(db.text("ALTER TABLE post ADD COLUMN sentiment_neg FLOAT DEFAULT 0.0"))
         
-        # Add sentiment_neu column
         conn.execute(db.text("ALTER TABLE post ADD COLUMN sentiment_neu FLOAT DEFAULT 0.0"))
         
-        # Add sentiment_compound column
         conn.execute(db.text("ALTER TABLE post ADD COLUMN sentiment_compound FLOAT DEFAULT 0.0"))
         
         conn.commit()
