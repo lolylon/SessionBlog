@@ -93,7 +93,6 @@ def update_post(post_id):
         title_sentiment = analyze_sentiment(form.title.data)
         content_sentiment = analyze_sentiment(form.content.data)
         
-        # Calculate average sentiment scores
         post.sentiment_pos = (title_sentiment['pos'] + content_sentiment['pos']) / 2
         post.sentiment_neg = (title_sentiment['neg'] + content_sentiment['neg']) / 2
         post.sentiment_neu = (title_sentiment['neu'] + content_sentiment['neu']) / 2
