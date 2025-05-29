@@ -46,12 +46,15 @@ def new_post():
     if form.validate_on_submit():
         post = Post(title=form.title.data, content=form.content.data, author=current_user)
         
-        # Analyze sentiment
-        sentiment = analyze_sentiment(form.content.data)
-        post.sentiment_pos = sentiment['pos']
-        post.sentiment_neg = sentiment['neg']
-        post.sentiment_neu = sentiment['neu']
-        post.sentiment_compound = sentiment['compound']
+        # Analyze sentiment of both title and content
+        title_sentiment = analyze_sentiment(form.title.data)
+        content_sentiment = analyze_sentiment(form.content.data)
+        
+        # Calculate average sentiment scores
+        post.sentiment_pos = (title_sentiment['pos'] + content_sentiment['pos']) / 2
+        post.sentiment_neg = (title_sentiment['neg'] + content_sentiment['neg']) / 2
+        post.sentiment_neu = (title_sentiment['neu'] + content_sentiment['neu']) / 2
+        post.sentiment_compound = (title_sentiment['compound'] + content_sentiment['compound']) / 2
         
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
@@ -85,6 +88,16 @@ def update_post(post_id):
     if form.validate_on_submit():
         post.title = form.title.data
         post.content = form.content.data
+        
+        # Analyze sentiment of both title and content
+        title_sentiment = analyze_sentiment(form.title.data)
+        content_sentiment = analyze_sentiment(form.content.data)
+        
+        # Calculate average sentiment scores
+        post.sentiment_pos = (title_sentiment['pos'] + content_sentiment['pos']) / 2
+        post.sentiment_neg = (title_sentiment['neg'] + content_sentiment['neg']) / 2
+        post.sentiment_neu = (title_sentiment['neu'] + content_sentiment['neu']) / 2
+        post.sentiment_compound = (title_sentiment['compound'] + content_sentiment['compound']) / 2
         
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
